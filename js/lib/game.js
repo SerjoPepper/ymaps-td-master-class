@@ -12,6 +12,26 @@
 
         removeFromMap: function () {
 
+        },
+
+        destroy: function () {
+
+        },
+
+        play: function () {
+
+        },
+
+        pause: function () {
+
+        },
+
+        startBuildTowers: function () {
+
+        },
+
+        stopBuildTowers: function () {
+
         }
 
     };
