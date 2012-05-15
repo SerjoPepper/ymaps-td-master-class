@@ -33,7 +33,7 @@ Player.prototype = {
 
     sellTower: function (coords) {
         var tower = this.towers[coords];
-        tower.removeFromMap();
+        tower.removeFromParent();
         delete this.towers[coords];
         this.data.set('money', this.data.get('money') + tower.sellPrice);
     },

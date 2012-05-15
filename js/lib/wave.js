@@ -1,4 +1,5 @@
 function Wave (params) {
+    console.log(params);
     var mobData = params.mobSettings[params.data.type];
 
     this.parent = params.parent;

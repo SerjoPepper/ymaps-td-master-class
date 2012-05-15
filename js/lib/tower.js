@@ -11,26 +11,30 @@ function Tower (data, player, coords, parent) {
     this.placemark = new ymaps.Placemark(coords, {
         balloonContentBody: '<button onclick="game.sellTower(\'' + coords.join(',') + '\')">' +
             'Продать за ' + this.sellPrice + '</button>'
-    }, {
-        preset: data.preset
     });
     this.coords = coords;
-    this.circle = new ymaps.Circle([coords, this.radius]);
+    this.circle = new ymaps.Circle([coords, this.radius], {}, {
+        interactivityModel: 'default#transparent'
+    });
     this.multi = data.multi;
     this.speedIndex = 0;
-    this.addToParent();
 
     this.recharged = true;
     this.ticker = new Ticker(1000/this.speed, this.recharge, this);
+    this.collection = new ymaps.GeoObjectCollection({}, {
+        preset: data.preset
+    });
+    this.collection.add(this.placemark).add(this.circle);
+    this.addToParent();
 }
 
 Tower.prototype = {
-    addToParent: function (pos, map) {
-        this.parent.add(this.placemark).add(this.circle);
+    addToParent: function () {
+        this.parent.add(this.collection);
     },
 
-    removeFromMap: function (map) {
-        this.parent.remove(this.placemark).remove(this.circle);
+    removeFromParent: function () {
+        this.parent.remove(this.collection);
     },
 
     startRecharge: function () {

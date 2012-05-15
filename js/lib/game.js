@@ -62,8 +62,8 @@ Game.prototype = {
         for (var i = 1, il = this.routes.length; i < il; i++) {
             var b2 = this.routes[1].getBounds();
             b1 = [
-                [Math.min(b1[0][0], b2[0][1]), Math.min(b1[1][0], b2[1][1])],
-                [Math.max(b1[0][0], b2[0][1]), Math.max(b1[1][0], b2[1][1])]
+                [Math.min(b1[0][0], b2[0][0]), Math.min(b1[0][1], b2[0][1])],
+                [Math.max(b1[1][0], b2[1][0]), Math.max(b1[1][1], b2[1][1])]
             ];
         }
         return b1;
@@ -103,6 +103,7 @@ Game.prototype = {
             mobs = [];
 
         for (var i = 0, il = this.routes.length; i < il; i++) {
+            console.log('make wave')
             this.routes[i].makeWave(levelData);
             var routeMobs = this.routes[i].wave.getMobs();
             for (var j = 0, jl = routeMobs.length; j < jl; j++) {
@@ -144,8 +145,8 @@ Game.prototype = {
         if (++this.routes.readyLength == this.routes.length) {
             //this.events.fire('routesReady');
             this.map.setBounds(this.getBounds());
+            this.makeLevel();
         }
-        this.makeLevel();
     },
 
     _startBuildTowers: function () {

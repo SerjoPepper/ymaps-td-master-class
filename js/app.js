@@ -5,7 +5,7 @@ function App () {
 App.prototype = {
     start: function () {
         this.params = {
-            routeCount: 1,
+            routeCount: 8,
             levelsCount: 2,
             complexity: 'easy'
         };

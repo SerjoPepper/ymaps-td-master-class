@@ -23,7 +23,8 @@ ymaps.ready(function () {
     });
 
     storage.add('game#tower1', {
-        preset: 'twirl#dpsIcon'
+        preset: 'twirl#dpsIcon',
+        fillColor: '25FA7E66'
     });
 
     storage.add('game#tower2', {
