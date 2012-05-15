@@ -10,6 +10,8 @@
         this.restartButton = new ymaps.control.Button({ data: { content: 'restart' }});
         this.changeLocationButton = new ymaps.control.Button({ data: { content: 'change location' }});
 
+        this.disableButtons();
+
         this.group
             .add(this.playButton)
             .add(this.towerButton)
@@ -89,6 +91,16 @@
                     }
                 }, this));
             }
+        },
+
+        enableButtons: function () {
+            this.playButton.enable();
+            this.towerButton.enable();
+        },
+
+        disableButtons: function () {
+            this.playButton.disable();
+            this.towerButton.disable();
         }
     };
     

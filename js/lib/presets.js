@@ -7,4 +7,9 @@ ymaps.ready(function () {
         preset: 'twirl#houseIcon'
     });
 
+    storage.add('game#route', {
+        strokeWidth: 8,
+        preset: 'twirl#campingIcon'
+    });
+
 });

@@ -12,8 +12,7 @@ var app = {
             type: "yandex#map"
         });
 
-        this.game = new this.lib.Game({ map: this.map, pos: this.pos });
-        this.game.addToMap();
+        this.createGame();
 
         this.controls = new this.lib.Controls({ map: this.map });
         this.controls.addToMap();
@@ -26,11 +25,20 @@ var app = {
             .add('changelocation', this.changeLocation, this);
     },
 
+    createGame: function () {
+        this.game = new this.lib.Game({ map: this.map, pos: this.pos });
+        this.game.addToMap();
+        this.gameEvents = this.game.events.group()
+            .add('destroy', this.onGameDestroy, this)
+            .add('ready', this.onGameReady, this)
+            .add('noroutesfound', this.onGameNoRoutes, this);
+    },
+
     restartGame: function () {
         this.game.destroy();
         this.game.removeFromMap();
-        this.game = new this.lib.Game({ map: this.map, pos: this.pos });
-        this.game.addToMap();
+        this.gameEvents.removeAll();
+        this.createGame();
     },
 
     changeLocation: function (e) {
@@ -55,6 +63,19 @@ var app = {
             setTimeout(function () { promise.resolve(center); }, 0);
         }
         return promise;
+    },
+
+    onGameDestroy: function () {
+        this.controls.disableButtons();
+    },
+
+    onGameReady: function () {
+        this.controls.enableButtons();
+    },
+
+    onGameNoRoutes: function () {
+        alert('Выберите другое место');
+        this.controls.disableButtons();
     },
 
     lib: {}
