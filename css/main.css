@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+    min-height: 100%;
+}
+body {
+    height: 100%;
+    overflow: hidden;
+}
+#map {
+    height: 100%;
+}
+
+#stats-panel {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 75px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background-color: #fff;
+    padding: 20px;
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.buy-tower {
+    overflow: hidden;
+    border-bottom: 1px solid gray;
+}
+
+.buy-tower:last-child {
+    border-bottom: none;
+}
+
+.buy-tower .buy-tower-left {
+    float: left;
+    width: 75px;
+}
+.buy-tower .buy-tower-right {
+    float: right;
+    width: 100px;
+}
