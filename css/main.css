@@ -13,3 +13,22 @@ body {
 #map {
     height: 100%;
 }
+
+.tower-balloon {
+    overflow: hidden;
+    border-bottom: 1px solid gray;
+    padding: 5px;
+}
+
+.tower-balloon:last-child {
+    border-bottom: none;
+}
+
+.tower-balloon .tower-balloon-left {
+    float: left;
+    width: 75px;
+}
+.tower-balloon .tower-balloon-right {
+    float: right;
+    width: 100px;
+}

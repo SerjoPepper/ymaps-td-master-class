@@ -74,7 +74,31 @@
                 active: 0.8,
                 noactive: 0.3
             }
-        }
+        },
+
+        player: {
+            money: 500
+        },
+
+        towers: [
+            {
+                name: 'пост ДПС',
+                speed: 10, //выстрелов в секунду
+                price: 100,
+                preset: 'game#tower1',
+                damage: 5,
+                radius: 150
+            },
+            {
+                name: 'Мануфактура',
+                speed: 5, //выстрелов в секунду
+                price: 200,
+                preset: 'game#tower2',
+                damage: 15,
+                radius: 150,
+                multi: true
+            }
+        ]
     };
 
 })(app.lib);

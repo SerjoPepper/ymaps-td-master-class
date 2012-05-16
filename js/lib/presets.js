@@ -20,4 +20,13 @@ ymaps.ready(function () {
         preset: 'twirl#theaterIcon'
     });
 
+    storage.add('game#tower1', {
+        preset: 'twirl#dpsIcon',
+        fillColor: '25FA7E66'
+    });
+
+    storage.add('game#tower2', {
+        preset: 'twirl#factoryIcon'
+    });
+
 });

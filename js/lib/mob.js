@@ -15,8 +15,6 @@
         this.pathIndex = 0;
 
         this.placemark = new ymaps.Placemark(this.pos, {}, { visible: false });
-
-        this.addToParent();
     }
 
     Mob.prototype = {
@@ -47,7 +45,7 @@
             this.parent.remove(this.placemark);
         },
 
-        tick: function (home) {
+        tick: function (home, towers) {
             if (this.destroyed) {
                 return;
             }
@@ -56,9 +54,25 @@
             if (nextCoordinates) {
                 this.pos = nextCoordinates;
                 this.placemark.geometry.setCoordinates(nextCoordinates);
+
+                for (var k in towers) {
+                    towers[k].punch(this);
+                    if (this.destroyed) {
+                        return;
+                    }
+                }
+
                 home.stab(this);
             } else {
                 this.destroy();
+            }
+        },
+
+        stab: function (damage) {
+            this.hp = Math.max(this.hp - damage, 0);
+            if (this.hp == 0) {
+                this.destroy();
+                return true;
             }
         }
 

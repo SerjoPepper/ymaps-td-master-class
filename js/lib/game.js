@@ -36,6 +36,11 @@
         this.levelIndex = 0;
 
         this.finished = false;
+
+        this.player = new exports.Player({
+            parent: this.collection
+        });
+        this.player.addToParent();
     }
 
     Game.prototype = {
@@ -55,25 +60,29 @@
         },
 
         play: function () {
+            this.playing = true;
             for (var i = 0, il = this.currentWaves.length; i < il; i++) {
                 this.currentWaves[i].play();
             }
+            this.player.startRecharge();
             this.ticker.play();
         },
 
         pause: function () {
+            this.playing = false;
             if (this.currentWaves) {
                 for (var i = 0, il = this.currentWaves.length; i < il; i++) {
                     this.currentWaves[i].pause();
                 }
             }
+            this.player.stopRecharge();
             this.ticker.pause();
         },
 
         tick: function () {
             for (var i = 0, il = this.currentWaves.length, finishedWaves = 0; i < il; i++) {
                 var wave = this.currentWaves[i];
-                wave.tick(this.home);
+                wave.tick(this.home, this.player.towers);
 
                 if (this.home.destroyed) {
                     this.finish();
@@ -84,6 +93,7 @@
                     finishedWaves++;
                 }
             }
+            this.player.tick();
             if (finishedWaves == i) {
                 this.finishLevel();
             }
@@ -121,11 +131,71 @@
         },
 
         startBuildTowers: function () {
-
+            this.buildTowerEvents = this.map.events.group()
+                .add('click', this.geocodePoint, this);
         },
 
         stopBuildTowers: function () {
+            if (this.buildTowerEvents) {
+                this.buildTowerEvents.removeAll();
+            }
+        },
 
+        geocodePoint: function (e) {
+            ymaps.geocode(e.get('coordPosition'), { kind: 'house', results: 1 })
+                 .then($.proxy(this.openBuyTowerBalloon, this));
+        },
+
+        openBuyTowerBalloon: function (res) {
+            var point = res.geoObjects.get(0);
+            if (point) {
+                this.buyingTowerPos = point.geometry.getCoordinates();
+                this.map.balloon.open(this.buyingTowerPos, {
+                    contentBody: this.getBalloonContentBody()
+                });
+            }
+        },
+
+        getBalloonContentBody: function () {
+            var towers = exports.settings.towers,
+                body = '',
+                options = new ymaps.option.Manager;
+
+            for (var i = 0, il = towers.length; i < il; i++) {
+                var tower = towers[i];
+                options.set('preset', tower.preset);
+                body += '<div class="tower-balloon">' +
+                    '<div class="tower-balloon-left">' +
+                    '<p class="tower-name">' + tower.name + '</p>' +
+                    '<img class="tower-img" src="'+ options.get('iconImageHref') +'"/>' +
+                    '</div>' +
+                    '<div class="tower-balloon-right">' +
+                    '<p class="tower-damage">урон: ' + tower.damage + '</p>' +
+                    '<p class="tower-radius">радиус: ' + tower.radius + '</p>' +
+                    '<p class="tower-speed">скорость: ' + tower.speed + '</p>' +
+                    '<p class="tower-price">цена: ' + tower.price + '</p>' +
+                    '<p class="tower-price">мульти: ' + (tower.multi ? 'да' : 'нет') + '</p>' +
+                    '<button class="buy-button" onclick="app.game.buyTower(' + i + ')">Купить</button>' +
+                    '</div>' +
+                    '</div>'
+                options.get('iconImageHref');
+            }
+
+            return body;
+        },
+
+        buyTower: function (type) {
+            var tower = this.player.buyTower(type, this.buyingTowerPos);
+            if (tower) {
+                this.map.balloon.close();
+                if (this.playing) {
+                    tower.startRecharge();
+                }
+            }
+        },
+
+        sellTower: function (k) {
+            this.player.sellTower(k);
         },
 
         getBounds: function () {
@@ -141,7 +211,7 @@
         },
 
         onRootReady: function (e) {
-            var route = e.get('target')
+            var route = e.get('target');
             this.routes.push(route);
             route.addToParent();
             if (++this.readyRoutesCount + this.failRoutesCount == this.settings.routes.length) {

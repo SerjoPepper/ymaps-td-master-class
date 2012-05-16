@@ -15,11 +15,13 @@
         this.ticker = new exports.Ticker(1000 * mobData.freq, this.activateMob, this);
         this.mobs = [];
         for (var i = 0; i < mobCount; i++) {
-            this.mobs.push(new exports.Mob({
+            var mob = new exports.Mob({
                 data: mobData,
                 parent: this.collection,
                 pathCoords: mobPathCoords
-            }));
+            });
+            this.mobs.push(mob);
+            mob.addToParent()
         }
         this.activeMobsCount = 0;
     }
@@ -74,7 +76,7 @@
             return mobPath;
         },
 
-        tick: function (home) {
+        tick: function (home, towers) {
             if (this.finished) {
                 return;
             }
@@ -82,7 +84,7 @@
             for (var i = 0, il = this.mobs.length, destroyedMobs = 0; i < il; i++) {
                 var mob = this.mobs[i];
                 if (mob.active) {
-                    mob.tick(home);
+                    mob.tick(home, towers);
                     if (home.destroyed) {
                         return;
                     }
