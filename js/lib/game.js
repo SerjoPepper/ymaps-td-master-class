@@ -10,10 +10,13 @@
             parent: this.collection,
             pos: this.pos
         });
+        this.home.addToParent();
 
         this.routes = [];
         this.readyRoutesCount = 0;
         this.failRoutesCount = 0;
+
+
         for (var i = 0; i < this.settings.routes.length; i++) {
             var route = new exports.Route(
                 $.extend({
@@ -27,6 +30,10 @@
         }
 
         this.events = new ymaps.event.Manager({ context: this });
+        this.ticker = new exports.Ticker(1000 / exports.settings.fps, this.tick, this);
+
+        this.levels = exports.settings.game.levels;
+        this.levelIndex = 0;
     }
 
     Game.prototype = {
@@ -44,11 +51,17 @@
         },
 
         play: function () {
-
+            this.ticker.play();
         },
 
         pause: function () {
+            this.ticker.pause();
+        },
 
+        tick: function () {
+            for (var i = 0, il = this.routes.length; i < il; i++) {
+                this.routes[i].wave.tick();
+            }
         },
 
         startBuildTowers: function () {
@@ -72,7 +85,9 @@
         },
 
         onRootReady: function (e) {
-            this.routes.push(e.get('target'));
+            var route = e.get('target')
+            this.routes.push(route);
+            route.addToParent();
             if (++this.readyRoutesCount + this.failRoutesCount == this.settings.routes.length) {
                 this.onReady();
             }

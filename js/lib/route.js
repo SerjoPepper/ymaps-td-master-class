@@ -39,6 +39,19 @@
             return this.path.properties.get('boundedBy');
         },
 
+        createWave: function (data) {
+            if (this.wave) {
+                this.wave.removeFromParent()
+            }
+
+            this.wave = new Wave($.extend({
+                parent: this.collection,
+                pathCoords: this.path.geometry.getCoordinates()
+            }, data));
+
+            this.wave.addToParent();
+        },
+
         onRootFail: function () {
             this.events.fire('fail');
         },
@@ -53,7 +66,6 @@
             this.placemark = new ymaps.Placemark(coords[0]);
             this.collection.add(this.path).add(this.placemark);
 
-            this.addToParent();
             this.events.fire('ready');
         }
     };

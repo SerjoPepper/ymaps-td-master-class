@@ -12,4 +12,12 @@ ymaps.ready(function () {
         preset: 'twirl#campingIcon'
     });
 
+    storage.add('game#mob1', {
+        preset: 'twirl#mushroomIcon'
+    });
+
+    storage.add('game#mob2', {
+        preset: 'twirl#theaterIcon'
+    });
+
 });

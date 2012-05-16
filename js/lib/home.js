@@ -1,7 +1,6 @@
 (function (exports) {
 
     function Home (params) {
-
         this.parent = params.parent;
         this.pos = params.pos;
         this.settings = exports.settings.home;
@@ -16,8 +15,6 @@
 
         this.collection = new ymaps.GeoObjectCollection({}, { preset: 'game#home' });
         this.collection.add(this.placemark).add(this.circle);
-
-        this.addToParent();
     }
 
     Home.prototype = {
