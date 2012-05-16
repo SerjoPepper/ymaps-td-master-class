@@ -41,6 +41,10 @@
             parent: this.collection
         });
         this.player.addToParent();
+
+        this.stats = {
+            level: $('#stats .level .val')
+        };
     }
 
     Game.prototype = {
@@ -56,7 +60,7 @@
         finish: function () {
             this.pause();
             this.finished = true;
-            this.events.fire('finish');
+            this.events.fire('finish', { score: this.player.kills });
         },
 
         play: function () {
@@ -127,6 +131,7 @@
                 }
             }
 
+            this.stats.level.text(this.levelIndex);
             return waves;
         },
 

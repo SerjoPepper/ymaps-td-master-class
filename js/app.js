@@ -71,8 +71,8 @@ var app = {
         return promise;
     },
 
-    onGameFinish: function () {
-        alert('Игра завершена!');
+    onGameFinish: function (e) {
+        alert('Игра завершена! Вы рекорд - ' + e.get('score'));
         this.controls.disableButtons();
     },
 

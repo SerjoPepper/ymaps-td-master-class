@@ -67,8 +67,7 @@
             if (exports.util.circleContain(this.circle, mob.pos)) {
                 var killmob = mob.stab(this.damage);
                 if (killmob) {
-                    this.owner.kills += 1;
-                    this.owner.money += mob.price;
+                    this.owner.kill(mob);
                 }
                 if (this.multi) {
                     this.punchedMulti = true;
