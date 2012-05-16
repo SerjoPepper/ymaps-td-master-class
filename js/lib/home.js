@@ -5,13 +5,12 @@
         this.pos = params.pos;
         this.settings = exports.settings.home;
         this.hp = this.currentHp = this.settings.hp;
+        this.destroyed = false;
 
-        var color = this.getColor();
+
         this.placemark = new ymaps.Placemark(this.pos);
-        this.circle = new ymaps.Circle([this.pos, this.settings.radius], {}, {
-            fillColor: color + this.settings.opacity,
-            strokeColor: color
-        });
+        this.circle = new ymaps.Circle([this.pos, this.settings.radius]);
+        this.setColor();
 
         this.collection = new ymaps.GeoObjectCollection({}, { preset: 'game#home' });
         this.collection.add(this.placemark).add(this.circle);
@@ -27,16 +26,45 @@
         },
 
         getColor: function () {
-            var k = this.currentHp/this.hp,
-                c1 = parseInt(this.settings.liveColor, 16) * k,
-                c2 = parseInt(this.settings.destroyColor, 16) * (1 - k),
-                color = Math.round(c1 + c2).toString(16);
+            var k1 = this.currentHp/this.hp,
+                k2 = 1 - k1,
+                c1 = this.settings.liveColor,
+                c2 = this.settings.destroyColor,
+                f = Math.floor,
+                color = [
+                    f(c1[0]*k1+c2[0]*k2).toString(16),
+                    f(c1[1]*k1+c2[1]*k2).toString(16),
+                    f(c1[2]*k1+c2[2]*k2).toString(16)
+                ];
 
-            while (color.length < 6) {
-                color = '0' + color;
+            for (var i = 0, il = color.length; i < il; i++) {
+                while (color[i].length < 2) {
+                    color[i] = '0' + color[i];
+                }
             }
 
-            return color;
+            return color.join('');
+        },
+
+
+
+        stab: function (mob) {
+            if (exports.util.equalCoords(this.pos, mob.pos)) {
+                this.currentHp = Math.max(this.currentHp - mob.damage, 0);
+                this.setColor();
+                if (this.currentHp == 0) {
+                    this.destroyed = true;
+                }
+            }
+        },
+
+        setColor: function () {
+            var color = this.getColor();
+            console.log(color);
+            this.circle.options.set({
+                fillColor: color + this.settings.opacity,
+                strokeColor: color
+            });
         }
     };
 

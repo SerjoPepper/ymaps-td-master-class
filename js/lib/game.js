@@ -36,7 +36,6 @@
         this.levelIndex = 0;
 
         this.finished = false;
-        this.currentWaves = null;
     }
 
     Game.prototype = {
@@ -51,17 +50,11 @@
 
         finish: function () {
             this.pause();
+            this.finished = true;
+            this.events.fire('finish');
         },
 
         play: function () {
-            if (this.finished) {
-                return;
-            }
-
-            if (!this.currentWaves) {
-                this.currentWaves = this.createCurrentWaves();
-            }
-
             for (var i = 0, il = this.currentWaves.length; i < il; i++) {
                 this.currentWaves[i].play();
             }
@@ -74,13 +67,39 @@
                     this.currentWaves[i].pause();
                 }
             }
-
             this.ticker.pause();
         },
 
         tick: function () {
-            for (var i = 0, il = this.currentWaves.length; i < il; i++) {
-                this.currentWaves[i].tick();
+            for (var i = 0, il = this.currentWaves.length, finishedWaves = 0; i < il; i++) {
+                var wave = this.currentWaves[i];
+                wave.tick(this.home);
+
+                if (this.home.destroyed) {
+                    this.finish();
+                    return;
+                }
+
+                if (wave.finished) {
+                    finishedWaves++;
+                }
+            }
+            if (finishedWaves == i) {
+                this.finishLevel();
+            }
+        },
+
+        finishLevel: function () {
+            this.currentWaves = null;
+            this.events.fire('finishlevel');
+
+            for (var i = 0, il = this.routes.length; i < il; i++) {
+                this.routes[i].deactivatePath();
+            }
+
+            this.currentWaves = this.createCurrentWaves();
+            if (!this.currentWaves) {
+                this.finish();
             }
         },
 
@@ -94,6 +113,7 @@
             for (var i = 0; i < data.routes; i++) {
                 if (this.routes[i]) {
                     waves.push(this.routes[i].createWave(data));
+                    this.routes[i].activatePath();
                 }
             }
 
@@ -140,6 +160,7 @@
                 this.events.fire('noroutesfound');
                 this.finished = true;
             } else {
+                this.currentWaves = this.createCurrentWaves();
                 this.map.setBounds(this.getBounds());
                 this.events.fire('ready');
             }

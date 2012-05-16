@@ -22,9 +22,12 @@
 
     Route.prototype = {
 
-        activate: function () {
-            this.active = true;
-            this.path.options.set({ opacity: 0.8 });
+        activatePath: function () {
+            this.path.options.set({ opacity: exports.settings.route.opacity.active });
+        },
+
+        deactivatePath: function () {
+            this.path.options.set({ opacity: exports.settings.route.opacity.noactive });
         },
 
         addToParent: function () {
@@ -59,7 +62,7 @@
 
         onRootReady: function (route) {
             this.path = route.getPaths().get(0);
-            this.path.options.set({ opacity: 0.3 });
+            this.deactivatePath();
 
             var coords = this.path.geometry.getCoordinates();
             coords.push(this.endPos);

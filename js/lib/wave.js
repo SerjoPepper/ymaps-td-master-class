@@ -74,11 +74,25 @@
             return mobPath;
         },
 
-        tick: function () {
-            for (var i = 0, il = this.mobs.length; i < il; i++) {
-                if (this.mobs[i].active) {
-                    this.mobs[i].tick();
+        tick: function (home) {
+            if (this.finished) {
+                return;
+            }
+
+            for (var i = 0, il = this.mobs.length, destroyedMobs = 0; i < il; i++) {
+                var mob = this.mobs[i];
+                if (mob.active) {
+                    mob.tick(home);
+                    if (home.destroyed) {
+                        return;
+                    }
                 }
+                if (mob.destroyed) {
+                    destroyedMobs++;
+                }
+            }
+            if (destroyedMobs == i) {
+                this.finished = true;
             }
         }
 

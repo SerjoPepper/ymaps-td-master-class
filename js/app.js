@@ -38,8 +38,8 @@ var app = {
     },
 
     restartGame: function () {
-        this.controls.deselectButtons();
-        this.game.finish();
+        this.controls.disableButtons();
+        this.game.pause();
         this.game.removeFromMap();
         this.gameEvents.removeAll();
         this.controlGameEvents.removeAll();
@@ -71,6 +71,7 @@ var app = {
     },
 
     onGameFinish: function () {
+        alert('Игра завершена!');
         this.controls.disableButtons();
     },
 

@@ -99,6 +99,7 @@
         },
 
         disableButtons: function () {
+            this.deselectButtons();
             this.playButton.disable();
             this.towerButton.disable();
         },

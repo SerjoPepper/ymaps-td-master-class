@@ -14,19 +14,29 @@
         this.pos = this.pathCoords[0];
         this.pathIndex = 0;
 
-        this.placemark = new ymaps.Placemark(this.pos);
+        this.placemark = new ymaps.Placemark(this.pos, {}, { visible: false });
+
+        this.addToParent();
     }
 
     Mob.prototype = {
 
         activate: function () {
             this.active = true;
-            this.addToParent();
+            this.show();
         },
 
         destroy: function () {
             this.destroyed = true;
-            this.removeFromParent();
+            this.hide();
+        },
+
+        show: function () {
+            this.placemark.options.set('visible', true);
+        },
+
+        hide: function () {
+            this.placemark.options.set('visible', false);
         },
 
         addToParent: function () {
@@ -37,7 +47,7 @@
             this.parent.remove(this.placemark);
         },
 
-        tick: function () {
+        tick: function (home) {
             if (this.destroyed) {
                 return;
             }
@@ -46,6 +56,9 @@
             if (nextCoordinates) {
                 this.pos = nextCoordinates;
                 this.placemark.geometry.setCoordinates(nextCoordinates);
+                home.stab(this);
+            } else {
+                this.destroy();
             }
         }
 
