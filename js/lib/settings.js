@@ -30,11 +30,11 @@
                     routes: 1
                 }, {
                     type: 0,
-                    count: 16,
+                    count: 8,
                     routes: 2
                 }, {
                     type: 1,
-                    count: 16,
+                    count: 8,
                     routes: 2
                 }
             ]

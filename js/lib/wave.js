@@ -6,7 +6,7 @@
             mobPathCoords = this.calculateMobPath(params.pathCoords, mobData.speed);
 
         this.parent = params.parent;
-        this.collection = new ymaps.GeoObjectCollection({
+        this.collection = new ymaps.GeoObjectCollection({}, {
             preset: mobData.preset,
             overlayFactory: ymaps.geoObject.overlayFactory.staticGraphics,
             zIndex: 1000
@@ -14,7 +14,7 @@
 
         this.ticker = new exports.Ticker(1000 * mobData.freq, this.activateMob, this);
         this.mobs = [];
-        for (var i = 0, il = params.data.count; i < il; i++) {
+        for (var i = 0; i < mobCount; i++) {
             this.mobs.push(new exports.Mob({
                 data: mobData,
                 parent: this.collection,

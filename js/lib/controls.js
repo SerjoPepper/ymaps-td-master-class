@@ -101,6 +101,11 @@
         disableButtons: function () {
             this.playButton.disable();
             this.towerButton.disable();
+        },
+
+        deselectButtons: function () {
+            this.playButton.deselect();
+            this.towerButton.deselect();
         }
     };
     

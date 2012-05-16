@@ -44,12 +44,13 @@
                 this.wave.removeFromParent()
             }
 
-            this.wave = new Wave($.extend({
+            this.wave = new exports.Wave($.extend({
                 parent: this.collection,
                 pathCoords: this.path.geometry.getCoordinates()
             }, data));
 
             this.wave.addToParent();
+            return this.wave;
         },
 
         onRootFail: function () {
