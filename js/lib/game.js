@@ -4,11 +4,17 @@
         this.collection = new ymaps.GeoObjectCollection
         this.pos = params.pos;
         this.map = params.map;
+        // this.settings
 
         this.home = new exports.Home({
             parent: this.collection,
             pos: this.pos
         });
+        this.home.addToParent();
+
+        // this.routes
+
+        this.events = new ymaps.event.Manager({ context: this });
     }
 
     Game.prototype = {
@@ -21,7 +27,7 @@
             this.map.geoObjects.remove(this.collection);
         },
 
-        destroy: function () {
+        finish: function () {
 
         },
 
@@ -40,6 +46,11 @@
         stopBuildTowers: function () {
 
         }
+
+        /* getBounds */
+        /* onRouteReady */
+        /* onRouteFail */
+        /* onReady */
 
     };
 

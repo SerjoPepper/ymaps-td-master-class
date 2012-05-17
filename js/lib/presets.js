@@ -7,4 +7,6 @@ ymaps.ready(function () {
         preset: 'twirl#houseIcon'
     });
 
+    /* route */
+
 });
