@@ -1,14 +1,16 @@
 var app = {
     init: function () {
-        this.findCenter().then($.proxy(this.startGame, this));
+        this.startGame([ymaps.geolocation.latitude, ymaps.geolocation.longitude]);
     },
-    
+
     startGame: function (pos) {
-        
-    },
-
-    findCenter: function () {
-
+        this.pos = pos;
+        this.map = new ymaps.Map("map", {
+            behaviors: ['default', 'scrollZoom'],
+            center: pos,
+            zoom: 16,
+            type: "yandex#map"
+        });
     },
 
     lib: {}
