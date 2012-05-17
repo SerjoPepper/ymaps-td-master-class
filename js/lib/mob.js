@@ -15,8 +15,6 @@
         this.pathIndex = 0;
 
         this.placemark = new ymaps.Placemark(this.pos, {}, { visible: false });
-
-        this.addToParent();
     }
 
     Mob.prototype = {
@@ -56,11 +54,16 @@
             if (nextCoordinates) {
                 this.pos = nextCoordinates;
                 this.placemark.geometry.setCoordinates(nextCoordinates);
+
+                // punch by towers
+
                 home.stab(this);
             } else {
                 this.destroy();
             }
         }
+
+        /*stab*/
 
     };
 

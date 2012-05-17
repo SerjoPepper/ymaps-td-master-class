@@ -27,6 +27,7 @@ var app = {
         this.game.addToMap();
         this.gameEvents = this.game.events.group()
             .add('finish', this.onGameFinish, this)
+            .add('finishlevel', this.onGameLevelFinish, this)
             .add('ready', this.onGameReady, this)
             .add('noroutesfound', this.onGameNoRoutes, this);
 
@@ -71,7 +72,7 @@ var app = {
     },
 
     onGameFinish: function () {
-        alert('Игра завершена!');
+        alert('Игра завершена!'); // Score here
         this.controls.disableButtons();
     },
 
@@ -82,6 +83,10 @@ var app = {
     onGameNoRoutes: function () {
         alert('Выберите другое место');
         this.controls.disableButtons();
+    },
+
+    onGameLevelFinish: function () {
+        this.controls.playButton.deselect();
     },
 
     lib: {}

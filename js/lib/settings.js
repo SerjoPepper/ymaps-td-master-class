@@ -75,6 +75,9 @@
                 noactive: 0.3
             }
         }
+
+        /*player*/
+        /*money*/
     };
 
 })(app.lib);

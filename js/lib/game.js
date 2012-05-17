@@ -36,6 +36,9 @@
         this.levelIndex = 0;
 
         this.finished = false;
+
+        //this.player;
+        //this.stats;
     }
 
     Game.prototype = {
@@ -55,18 +58,22 @@
         },
 
         play: function () {
+            // this.playing = false;
             for (var i = 0, il = this.currentWaves.length; i < il; i++) {
                 this.currentWaves[i].play();
             }
+            // recharge
             this.ticker.play();
         },
 
         pause: function () {
+            // this.playing = true;
             if (this.currentWaves) {
                 for (var i = 0, il = this.currentWaves.length; i < il; i++) {
                     this.currentWaves[i].pause();
                 }
             }
+            // recharge
             this.ticker.pause();
         },
 
@@ -84,6 +91,7 @@
                     finishedWaves++;
                 }
             }
+            // tick player
             if (finishedWaves == i) {
                 this.finishLevel();
             }
@@ -116,17 +124,23 @@
                     this.routes[i].activatePath();
                 }
             }
-
+            // render stats - level
             return waves;
         },
 
         startBuildTowers: function () {
-
+            // bind events
         },
 
         stopBuildTowers: function () {
-
+            // unbind events
         },
+
+        /* geocodePoint */
+        /* openBuyTowerBalloon */
+        /* getBalloonContentBody */
+        /* buyTower */
+        /* sellTower */
 
         getBounds: function () {
             var b1 = this.routes[0].getBounds();
@@ -141,7 +155,7 @@
         },
 
         onRootReady: function (e) {
-            var route = e.get('target')
+            var route = e.get('target');
             this.routes.push(route);
             route.addToParent();
             if (++this.readyRoutesCount + this.failRoutesCount == this.settings.routes.length) {

@@ -14,6 +14,8 @@
 
         this.collection = new ymaps.GeoObjectCollection({}, { preset: 'game#home' });
         this.collection.add(this.placemark).add(this.circle);
+
+        // stats, setColor -> setState
     }
 
     Home.prototype = {
@@ -60,7 +62,6 @@
 
         setColor: function () {
             var color = this.getColor();
-            console.log(color);
             this.circle.options.set({
                 fillColor: color + this.settings.opacity,
                 strokeColor: color
