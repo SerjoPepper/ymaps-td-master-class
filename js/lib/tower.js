@@ -20,7 +20,6 @@
         this.collection = new ymaps.GeoObjectCollection({}, { preset: params.preset });
         this.collection.add(this.placemark).add(this.circle);
 
-        this.speedIndex = 0;
         this.punched = false;
         this.punchedMulti = true;
     }
