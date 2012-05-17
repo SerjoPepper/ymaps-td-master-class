@@ -21,7 +21,7 @@
                 pathCoords: mobPathCoords
             });
             this.mobs.push(mob);
-            mob.addToParent()
+            mob.addToParent();
         }
         this.activeMobsCount = 0;
     }

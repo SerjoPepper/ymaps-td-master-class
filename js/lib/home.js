@@ -10,12 +10,10 @@
 
         this.placemark = new ymaps.Placemark(this.pos);
         this.circle = new ymaps.Circle([this.pos, this.settings.radius]);
-        this.setColor();
+        this.setState();
 
         this.collection = new ymaps.GeoObjectCollection({}, { preset: 'game#home' });
         this.collection.add(this.placemark).add(this.circle);
-
-        // stats, setColor -> setState
     }
 
     Home.prototype = {
@@ -53,14 +51,14 @@
         stab: function (mob) {
             if (exports.util.equalCoords(this.pos, mob.pos)) {
                 this.currentHp = Math.max(this.currentHp - mob.damage, 0);
-                this.setColor();
+                this.setState();
                 if (this.currentHp == 0) {
                     this.destroyed = true;
                 }
             }
         },
 
-        setColor: function () {
+        setState: function () {
             var color = this.getColor();
             this.circle.options.set({
                 fillColor: color + this.settings.opacity,
