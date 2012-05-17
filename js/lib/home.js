@@ -6,7 +6,6 @@
         this.settings = exports.settings.home;
         this.hp = this.currentHp = this.settings.hp;
 
-        var color = this.getColor();
         this.placemark = new ymaps.Placemark(this.pos);
         this.circle = new ymaps.Circle([this.pos, this.settings.radius]);
         this.setState();

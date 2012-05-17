@@ -54,7 +54,6 @@
             this.events.fire('finish');
         },
 
-
         play: function () {
             // play waves
             this.ticker.play();
