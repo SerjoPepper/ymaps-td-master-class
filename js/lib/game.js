@@ -1,20 +1,24 @@
 (function (exports) {
 
     function Game () {
+        // add collection
+        // handle params
+        // add home
 
+        this.events = new ymaps.event.Manager({ context: this });
     }
 
     Game.prototype = {
 
         addToMap: function () {
-
+            // add collection
         },
 
         removeFromMap: function () {
-
+            // remove collection
         },
 
-        destroy: function () {
+        finish: function () {
 
         },
 
