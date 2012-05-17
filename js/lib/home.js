@@ -7,7 +7,6 @@
         this.hp = this.currentHp = this.settings.hp;
         this.destroyed = false;
 
-
         this.placemark = new ymaps.Placemark(this.pos);
         this.circle = new ymaps.Circle([this.pos, this.settings.radius]);
         this.setState();
