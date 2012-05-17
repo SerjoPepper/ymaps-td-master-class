@@ -10,6 +10,7 @@
             parent: this.collection,
             pos: this.pos
         });
+        this.home.addToParent();
 
         this.routes = [];
         this.readyRoutesCount = 0;
@@ -27,6 +28,9 @@
         }
 
         this.events = new ymaps.event.Manager({ context: this });
+        // ticker
+        // levels
+        // finished
     }
 
     Game.prototype = {
@@ -39,7 +43,7 @@
             this.map.geoObjects.remove(this.collection);
         },
 
-        destroy: function () {
+        finish: function () {
 
         },
 
@@ -50,6 +54,8 @@
         pause: function () {
 
         },
+
+        /*tick*/
 
         startBuildTowers: function () {
 
@@ -72,12 +78,14 @@
         },
 
         onRootReady: function (e) {
-            this.routes.push(e.get('target'));
+            var route = e.get('target');
+            this.routes.push(route);
+            route.addToParent();
             if (++this.readyRoutesCount + this.failRoutesCount == this.settings.routes.length) {
                 this.onReady();
             }
         },
-        
+
         onRootFail: function (e) {
             if (this.readyRoutesCount + ++this.failRoutesCount == this.settings.routes.length) {
                 this.onReady();
@@ -87,7 +95,9 @@
         onReady: function () {
             if (this.routes.length == 0) {
                 this.events.fire('noroutesfound');
+                this.finished = true;
             } else {
+                // current waves
                 this.map.setBounds(this.getBounds());
                 this.events.fire('ready');
             }

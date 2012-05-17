@@ -17,30 +17,29 @@
                     offset: [0.0075, -0.005],
                     preset: 'game#route'
                 }
-            ],
-
-            levels: [
-                {
-                    type: 0,
-                    count: 20
-                }, {
-                    type: 1,
-                    count: 20
-                }, {
-                    type: 2,
-                    count: 10
-                }
             ]
+
+            /* levels */
         },
 
         home: {
             hp: 500,
             radius: 100,
             preset: 'game#home',
-            liveColor: '00ff00',
-            destroyColor: 'ff0000',
+            liveColor: [0, 255, 0],
+            destroyColor: [255, 0, 0],
             opacity: 'aa'
+        },
+
+        route: {
+            opacity: {
+                active: 0.8,
+                noactive: 0.3
+            }
         }
+
+        /* mobs */
+        /* fps */
     };
 
 })(app.lib);

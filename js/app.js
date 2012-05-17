@@ -2,7 +2,7 @@ var app = {
     init: function () {
         this.findCenter().then($.proxy(this.startGame, this));
     },
-    
+
     startGame: function (pos) {
         this.pos = pos;
         this.map = new ymaps.Map("map", {
@@ -12,32 +12,38 @@ var app = {
             type: "yandex#map"
         });
 
-        this.createGame();
 
         this.controls = new this.lib.Controls({ map: this.map });
         this.controls.addToMap();
         this.controls.events.group()
-            .add('play', this.game.play, this.game)
-            .add('pause', this.game.pause, this.game)
-            .add('startbuildtowers', this.game.startBuildTowers, this.game)
-            .add('stopbuildtowers', this.game.stopBuildTowers, this.game)
             .add('restart', this.restartGame, this)
             .add('changelocation', this.changeLocation, this);
+
+        this.createGame();
     },
 
     createGame: function () {
         this.game = new this.lib.Game({ map: this.map, pos: this.pos });
         this.game.addToMap();
         this.gameEvents = this.game.events.group()
-            .add('destroy', this.onGameDestroy, this)
+            .add('finish', this.onGameFinish, this)
+            .add('finishlevel', this.onGameLevelFinish, this)
             .add('ready', this.onGameReady, this)
             .add('noroutesfound', this.onGameNoRoutes, this);
+
+        this.controlGameEvents = this.controls.events.group()
+            .add('play', this.game.play, this.game)
+            .add('pause', this.game.pause, this.game)
+            .add('startbuildtowers', this.game.startBuildTowers, this.game)
+            .add('stopbuildtowers', this.game.stopBuildTowers, this.game);
     },
 
     restartGame: function () {
-        this.game.destroy();
+        this.controls.disableButtons();
+        this.game.pause();
         this.game.removeFromMap();
         this.gameEvents.removeAll();
+        this.controlGameEvents.removeAll();
         this.createGame();
     },
 
@@ -65,7 +71,8 @@ var app = {
         return promise;
     },
 
-    onGameDestroy: function () {
+    onGameFinish: function () {
+        alert('Игра завершена!');
         this.controls.disableButtons();
     },
 
@@ -76,6 +83,10 @@ var app = {
     onGameNoRoutes: function () {
         alert('Выберите другое место');
         this.controls.disableButtons();
+    },
+
+    onGameLevelFinish: function () {
+        this.controls.playButton.deselect();
     },
 
     lib: {}

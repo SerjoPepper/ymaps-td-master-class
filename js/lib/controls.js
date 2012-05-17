@@ -1,5 +1,5 @@
 (function (exports) {
-    
+
     function  Controls (params) {
         this.map = params.map;
         this.group = new ymaps.control.Group();
@@ -18,14 +18,14 @@
             .add(this.restartButton)
             .add(this.changeLocationButton);
     }
-    
+
     Controls.prototype = {
-        
+
         addToMap: function () {
             this.bindEvents();
             this.map.controls.add(this.group);
         },
-        
+
         removeFromMap: function () {
             this.unbindEvents();
             this.map.controls.remove(this.group);
@@ -99,11 +99,17 @@
         },
 
         disableButtons: function () {
+            this.deselectButtons();
             this.playButton.disable();
             this.towerButton.disable();
+        },
+
+        deselectButtons: function () {
+            this.playButton.deselect();
+            this.towerButton.deselect();
         }
     };
-    
+
     exports.Controls = Controls;
-    
+
 })(app.lib);
