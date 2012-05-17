@@ -1,5 +1,0 @@
-var app = {
-    init: function () {
-
-    }
-};
