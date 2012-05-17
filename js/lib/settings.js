@@ -22,19 +22,19 @@
             levels: [
                 {
                     type: 0,
-                    count: 20,
-                    routes: 1
-                }, {
-                    type: 1,
-                    count: 20,
-                    routes: 1
-                }, {
-                    type: 0,
-                    count: 16,
+                    count: 1,
                     routes: 2
                 }, {
                     type: 1,
-                    count: 16,
+                    count: 2,
+                    routes: 1
+                }, {
+                    type: 0,
+                    count: 8,
+                    routes: 2
+                }, {
+                    type: 1,
+                    count: 8,
                     routes: 2
                 }
             ]
@@ -44,19 +44,19 @@
             hp: 500,
             radius: 100,
             preset: 'game#home',
-            liveColor: '00ff00',
-            destroyColor: 'ff0000',
+            liveColor: [0, 255, 0],
+            destroyColor: [255, 0, 0],
             opacity: 'aa'
         },
 
         mobs: [
             {
-                speed: 60, // м/с
+                speed: 150, // м/с
                 hp: 10,
                 price: 5,
-                damage: 1,
+                damage: 250,
                 preset: 'game#mob1',
-                freq: 2
+                freq: 4
             }, {
                 speed: 20, // м/с
                 hp: 100,
@@ -67,7 +67,14 @@
             }
         ],
 
-        fps: 20
+        fps: 10,
+
+        route: {
+            opacity: {
+                active: 0.8,
+                noactive: 0.3
+            }
+        }
     };
 
 })(app.lib);

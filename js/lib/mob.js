@@ -21,12 +21,20 @@
 
         activate: function () {
             this.active = true;
-            this.addToParent();
+            this.show();
         },
 
         destroy: function () {
             this.destroyed = true;
-            this.removeFromParent();
+            this.hide();
+        },
+
+        show: function () {
+            this.placemark.options.set('visible', true);
+        },
+
+        hide: function () {
+            this.placemark.options.set('visible', false);
         },
 
         addToParent: function () {
@@ -46,6 +54,9 @@
             if (nextCoordinates) {
                 this.pos = nextCoordinates;
                 this.placemark.geometry.setCoordinates(nextCoordinates);
+                // punch home;
+            } else {
+                this.destroy();
             }
         }
 

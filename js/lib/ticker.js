@@ -4,7 +4,6 @@
         this.interval = interval;
         this.callback = callback;
         this.ctx = ctx;
-        this.events = new ymaps.event.Manager({ context: this });
     }
 
     Ticker.prototype = {
@@ -14,10 +13,7 @@
             }
             this.started = true;
             this.timer = setInterval($.proxy(function () {
-                if (this.callback) {
-                    this.callback.call(this.ctx || null);
-                }
-                this.events.fire('tick');
+                this.callback.call(this.ctx || null);
             }, this), this.interval);
         },
 

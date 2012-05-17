@@ -6,7 +6,7 @@
             mobPathCoords = this.calculateMobPath(params.pathCoords, mobData.speed);
 
         this.parent = params.parent;
-        this.collection = new ymaps.GeoObjectCollection({
+        this.collection = new ymaps.GeoObjectCollection({}, {
             preset: mobData.preset,
             overlayFactory: ymaps.geoObject.overlayFactory.staticGraphics,
             zIndex: 1000
@@ -15,11 +15,13 @@
         this.ticker = new exports.Ticker(1000 * mobData.freq, this.activateMob, this);
         this.mobs = [];
         for (var i = 0, il = params.data.count; i < il; i++) {
-            this.mobs.push(new exports.Mob({
+            var mob = new exports.Mob({
                 data: mobData,
                 parent: this.collection,
                 pathCoords: mobPathCoords
-            }));
+            });
+            this.mobs.push(mob);
+            mob.addToParent();
         }
         this.activeMobsCount = 0;
     }
@@ -79,6 +81,7 @@
                 if (this.mobs[i].active) {
                     this.mobs[i].tick();
                 }
+                // extend this;
             }
         }
 

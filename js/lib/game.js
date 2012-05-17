@@ -34,6 +34,8 @@
 
         this.levels = exports.settings.game.levels;
         this.levelIndex = 0;
+
+        this.finished = false;
     }
 
     Game.prototype = {
@@ -46,23 +48,29 @@
             this.map.geoObjects.remove(this.collection);
         },
 
-        destroy: function () {
-
+        finish: function () {
+            this.pause();
+            this.finished = true;
+            this.events.fire('finish');
         },
 
+
         play: function () {
+            // play waves
             this.ticker.play();
         },
 
         pause: function () {
+            // pause waves
             this.ticker.pause();
         },
 
         tick: function () {
-            for (var i = 0, il = this.routes.length; i < il; i++) {
-                this.routes[i].wave.tick();
-            }
+            // tick waves
         },
+
+        /* finishLevel */
+        /* createCurrentWaves */
 
         startBuildTowers: function () {
 
@@ -85,7 +93,7 @@
         },
 
         onRootReady: function (e) {
-            var route = e.get('target')
+            var route = e.get('target');
             this.routes.push(route);
             route.addToParent();
             if (++this.readyRoutesCount + this.failRoutesCount == this.settings.routes.length) {
@@ -102,7 +110,9 @@
         onReady: function () {
             if (this.routes.length == 0) {
                 this.events.fire('noroutesfound');
+                this.finished = true;
             } else {
+                // current waves
                 this.map.setBounds(this.getBounds());
                 this.events.fire('ready');
             }
